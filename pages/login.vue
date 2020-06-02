@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <h1>Login</h1>
+    <h1>Admin Login</h1>
     <p id="error">
       {{ error }}
     </p>
@@ -55,8 +55,8 @@ export default {
             message: '登录成功',
             type: 'success'
           })
-          // const user = res.data.map.user
-          // this.$store.commit('user/setUser', user)
+          const user = res.data.map.user
+          this.$store.commit('user/setAdmin', user)
           this.$router.push({ path: '/' })
         } else {
           this.$message.error('登录失败，请重新登录')

@@ -4,7 +4,7 @@
       <div class="user-info">
         <img src="https://cdn.harrisonlee.net/hl.jpg">
         <div>
-          <span>管理员：Root</span>
+          <span>管理员：{{ admin.username }}</span>
         </div>
       </div>
       <div class="menu">
@@ -34,6 +34,9 @@
             </div>
           </div>
         </div>
+        <div class="logout">
+          <i class="fas fa-sign-out-alt" @click="logout" />
+        </div>
       </div>
     </el-aside>
 
@@ -52,10 +55,16 @@ export default {
       menus: [],
       expandMenus: {},
       activeMenu: -1,
-      activeMenuItem: -1
+      activeMenuItem: -1,
+      admin: { username: '' }
     }
   },
   created () {
+    this.$store.subscribe((state, mutation) => {
+      if (mutation.type === 'user/setAdmin') {
+        this.admin = state.admin
+      }
+    })
     this.getMenu()
   },
   methods: {
@@ -92,6 +101,16 @@ export default {
             const home = { title: '首页', link: '/', icon: 'fas fa-home', subMenu: [] }
             menus.unshift(home)
             this.menus = menus
+          }
+        })
+    },
+    logout () {
+      this.$axios.get('/api/logout')
+        .then((res) => {
+          if (res.data.state === 'OK') {
+            this.$router.push('/login')
+          } else {
+            this.$message.error('系统出现故障')
           }
         })
     }
@@ -132,12 +151,8 @@ a {
         border-radius: 50%;
         margin-bottom: 10px;
       }
-      span {
-
-      }
     }
   }
-
   .menu {
     overflow-y: auto;
     .sub-menu {
@@ -175,58 +190,13 @@ a {
     color: deepskyblue;
   }
 
-  main {
-    height: 1000px;
+  .logout {
+    position: fixed;
+    font-size: 30px;
+    left: 160px;
+    bottom: 20px;
+    i {
+      cursor: pointer;
+    }
   }
 </style>
-
-      // menus: [
-      //   {
-      //     title: '首页',
-      //     subMenu: []
-      //   },
-      //   {
-      //     title: '用户管理',
-      //     subMenu: [
-      //       {
-      //         title: '普通用户管理'
-      //       },
-      //       {
-      //         title: '管理员管理'
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     title: '组织管理',
-      //     subMenu: [
-      //       {
-      //         title: '学院管理'
-      //       },
-      //       {
-      //         title: '专业管理'
-      //       },
-      //       {
-      //         title: '班级管理'
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     title: '扩容申请处理',
-      //     subMenu: []
-      //   },
-      //   {
-      //     title: '举报处理',
-      //     subMenu: [
-      //       {
-      //         title: '分享举报'
-      //       },
-      //       {
-      //         title: '共享举报'
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     title: '系统设置',
-      //     subMenu: []
-      //   }
-      // ],

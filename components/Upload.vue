@@ -6,9 +6,9 @@
         上传Excel文件
       </label>
 
-      <el-button @click="upload">
+      <!-- <el-button @click="upload">
         上传(仅存在于编码阶段)
-      </el-button>
+      </el-button> -->
     </div>
     <div><small>文件类型仅限.xls, .xlsx</small></div>
   </div>
@@ -26,6 +26,10 @@ export default {
   methods: {
     upload () {
       const file = this.$refs.excelFileUpload.files[0]
+      if (!file) {
+        this.$message.error('请选择所要上传的文件')
+        return
+      }
       if (this.checkFileType(file) && this.checkFileSize(file)) {
         const data = new FormData()
         data.append('file', file)
@@ -33,6 +37,7 @@ export default {
           .then((res) => {
             if (res.data.status === 'OK') {
               this.$message.success('添加成功')
+              this.$store.commit('user/setRefreshUsers', new Date())
             } else {
               this.$message.error('添加失败')
             }
