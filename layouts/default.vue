@@ -67,6 +67,13 @@ export default {
     })
     this.getMenu()
   },
+  mounted () {
+    let admin = localStorage.getItem('admin')
+    if (admin) {
+      admin = JSON.parse(admin)
+      this.admin = admin
+    }
+  },
   methods: {
     handleMenu (i, j, k) {
       if (j === undefined) {
@@ -107,7 +114,7 @@ export default {
     logout () {
       this.$axios.get('/api/logout')
         .then((res) => {
-          if (res.data.state === 'OK') {
+          if (res.data.status === 'OK') {
             this.$router.push('/login')
           } else {
             this.$message.error('系统出现故障')
