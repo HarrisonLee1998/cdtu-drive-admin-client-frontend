@@ -209,6 +209,7 @@ export default {
         })
     },
     parseData (pageInfo, roles, depts) {
+      roles.unshift({ id: null, title: '普通用户' })
       roles.forEach((role) => {
         this.roleTitles[role.id] = role.title
       })
