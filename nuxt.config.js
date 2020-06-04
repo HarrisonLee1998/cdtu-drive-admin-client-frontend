@@ -43,7 +43,8 @@ export default {
     '@/plugins/moment.js',
     // '@/plugins/click.js',
     // '@/plugins/uploader.js',
-    '@/plugins/axios.js'
+    '@/plugins/axios.js',
+    '@/plugins/echarts.js'
   ],
   /*
    ** Nuxt.js dev-modules

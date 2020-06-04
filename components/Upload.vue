@@ -42,6 +42,9 @@ export default {
               this.$message.error('添加失败')
             }
           })
+          .catch(() => {
+            this.$message.error('添加失败')
+          })
       }
     },
     checkFileType (file) {
